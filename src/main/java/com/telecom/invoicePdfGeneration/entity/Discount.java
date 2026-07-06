@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -29,24 +28,21 @@ public class Discount implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "discount_id")
-    private Long discountId;
+    @Column(name = "id")
+    private Integer id;
 
-    @Column(name = "discount_name")
-    private String discountName;
+    @Column(name = "ApplicationCode")
+    private String applicationCode;
 
-    @Column(name = "discount_amount")
-    private BigDecimal discountAmount;
+    @Column(name = "DiscountValue")
+    private String discountValue;
 
-    @Column(name = "discount_percentage")
-    private BigDecimal discountPercentage;
+    @Column(name = "PropertyValue")
+    private String propertyValue;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "ActivationDt")
+    private LocalDate activationDt;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "ExpirationDt")
+    private LocalDate expirationDt;
 }

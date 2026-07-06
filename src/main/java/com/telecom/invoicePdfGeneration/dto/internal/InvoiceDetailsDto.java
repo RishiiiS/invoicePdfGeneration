@@ -34,16 +34,15 @@ public class InvoiceDetailsDto {
     private String email;
     
     // Plan Data
-    private Long planId;
+    private Integer planId;
     private String planName;
     private BigDecimal monthlyRental;
     
     // Tax Data
     private String taxName;
-    private BigDecimal taxPercentage;
+    private String taxValue;
     
     // Discount Data
     private String discountName;
-    private BigDecimal discountAmount;
-    private BigDecimal discountPercentage;
+    private String discountValue;
 }

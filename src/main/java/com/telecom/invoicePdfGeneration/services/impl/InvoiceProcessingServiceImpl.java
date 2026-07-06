@@ -9,9 +9,11 @@ import com.telecom.invoicePdfGeneration.services.InvoiceProcessingService;
 import com.telecom.invoicePdfGeneration.services.PdfGenerationService;
 import com.telecom.invoicePdfGeneration.services.PdfStorageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class InvoiceProcessingServiceImpl implements InvoiceProcessingService {
@@ -24,19 +26,26 @@ public class InvoiceProcessingServiceImpl implements InvoiceProcessingService {
     @Override
     @Transactional
     public InvoicePdfResponseDto processInvoice(Long invoiceId) {
+        log.info("Processing Invoice = {}", invoiceId);
+        
         // 1. Retrieve aggregated details
         InvoiceDetailsDto invoiceDetails = invoiceAggregationService.getInvoiceDetails(invoiceId);
+        log.info("Aggregation Completed for Invoice = {}", invoiceId);
 
         // 2. Generate PDF document bytes
         byte[] pdfBytes = pdfGenerationService.generateInvoicePdf(invoiceDetails);
+        log.info("PDF Generated for Invoice = {}. PDF Byte Size = {}", invoiceId, pdfBytes != null ? pdfBytes.length : 0);
 
         // 3. Store PDF onto the filesystem/storage
         String storedPdfPath = pdfStorageService.storePdf(pdfBytes, invoiceDetails.getMsisdn());
+        log.info("PDF Stored = {}", storedPdfPath);
 
         // 4. Update and persist the invoice record
         updateInvoiceRecord(invoiceId, storedPdfPath);
+        log.info("Database Updated for Invoice = {}", invoiceId);
 
         // 5. Construct and return response
+        log.info("Invoice Completed = {}", invoiceId);
         return buildResponseDto(invoiceDetails, storedPdfPath);
     }
 

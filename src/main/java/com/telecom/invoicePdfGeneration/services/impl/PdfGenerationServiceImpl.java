@@ -127,7 +127,7 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
         addChargeRow(table, "Other Charges", String.valueOf(details.getOtherCharges()), normalFont);
         
         addChargeRow(table, "Discount (" + (details.getDiscountName() != null ? details.getDiscountName() : "N/A") + ")", 
-                "-" + String.valueOf(details.getDiscountAmount()), normalFont);
+                "-" + String.valueOf(details.getDiscountValue()), normalFont);
                 
         addChargeRow(table, "Adjustments", String.valueOf(details.getAdjustments()), normalFont);
         addChargeRow(table, "Tax (" + (details.getTaxName() != null ? details.getTaxName() : "N/A") + ")", 

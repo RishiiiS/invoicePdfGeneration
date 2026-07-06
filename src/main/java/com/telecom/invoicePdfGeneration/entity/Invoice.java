@@ -14,7 +14,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-// import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -33,11 +32,14 @@ public class Invoice implements Serializable {
     @Column(name = "invoice_id")
     private Long invoiceId;
 
+    @Column(name = "billing_cycle_id")
+    private String billingCycleId;
+
     @Column(name = "customer_id")
     private Long customerId;
 
     @Column(name = "plan_id")
-    private Long planId;
+    private Integer planId;
 
     @Column(name = "plan_charges")
     private BigDecimal planCharges;
@@ -63,12 +65,12 @@ public class Invoice implements Serializable {
     @Column(name = "pdf_path")
     private String pdfPath;
 
-    @Column(name = "billing_cycle_id")
-    private String billingCycleId;
+    @Column(name = "generated_at")
+    private LocalDateTime generatedAt;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "month")
+    private String month;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "year")
+    private Integer year;
 }

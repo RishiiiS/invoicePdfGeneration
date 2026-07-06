@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -29,21 +28,21 @@ public class Tax implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tax_id")
-    private Long taxId;
+    @Column(name = "id")
+    private Integer id;
 
-    @Column(name = "tax_name")
-    private String taxName;
+    @Column(name = "ApplicationCode")
+    private String applicationCode;
 
-    @Column(name = "tax_percentage")
-    private BigDecimal taxPercentage;
+    @Column(name = "TaxValue")
+    private String taxValue;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "PropertyValue")
+    private String propertyValue;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "ActivationDt")
+    private LocalDate activationDt;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "ExpirationDt")
+    private LocalDate expirationDt;
 }

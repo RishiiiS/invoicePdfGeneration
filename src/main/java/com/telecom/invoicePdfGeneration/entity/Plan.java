@@ -14,7 +14,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -30,23 +29,20 @@ public class Plan implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "plan_id")
-    private Long planId;
+    private Integer planId;
+
+    @Column(name = "plan_code")
+    private String planCode;
 
     @Column(name = "plan_name")
     private String planName;
 
-    @Column(name = "monthly_rental")
-    private BigDecimal monthlyRental;
+    @Column(name = "monthly_charge")
+    private BigDecimal monthlyCharge;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "status")
-    private String status;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "is_active")
+    private Boolean isActive;
 }

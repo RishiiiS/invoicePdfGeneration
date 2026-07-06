@@ -15,6 +15,7 @@ import com.telecom.invoicePdfGeneration.services.InvoiceAggregationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -51,28 +52,29 @@ public class InvoiceAggregationServiceImpl implements InvoiceAggregationService 
                 .orElseThrow(() -> new RuntimeException("Customer not found with ID: " + customerId));
     }
 
-    private Plan getPlan(Long planId) {
+    private Plan getPlan(Integer planId) {
         if (planId == null) {
-            throw new RuntimeException("Plan ID is null in the invoice.");
+            return new Plan();
         }
-        return planRepository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("Plan not found with ID: " + planId));
+        return planRepository.findById(planId).orElse(new Plan());
     }
 
     private Tax getActiveTax() {
         List<Tax> taxes = taxRepository.findAll();
+        LocalDate now = LocalDate.now();
         return taxes.stream()
-                .filter(t -> "ACTIVE".equalsIgnoreCase(t.getStatus()))
+                .filter(t -> t.getExpirationDt() == null || t.getExpirationDt().isAfter(now))
                 .findFirst()
-                .orElseGet(() -> taxes.isEmpty() ? new Tax() : taxes.get(0));
+                .orElse(new Tax());
     }
 
     private Discount getActiveDiscount() {
         List<Discount> discounts = discountRepository.findAll();
+        LocalDate now = LocalDate.now();
         return discounts.stream()
-                .filter(d -> "ACTIVE".equalsIgnoreCase(d.getStatus()))
+                .filter(d -> d.getExpirationDt() == null || d.getExpirationDt().isAfter(now))
                 .findFirst()
-                .orElseGet(() -> discounts.isEmpty() ? new Discount() : discounts.get(0));
+                .orElse(new Discount());
     }
 
     private InvoiceDetailsDto buildInvoiceDetailsDto(Invoice invoice, Customer customer, Plan plan, Tax tax, Discount discount) {
@@ -91,18 +93,17 @@ public class InvoiceAggregationServiceImpl implements InvoiceAggregationService 
                 .msisdn(customer.getMsisdn())
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
-                .email(customer.getEmail())
+                .email(customer.getEmailId())
                 
                 .planId(plan.getPlanId())
-                .planName(plan.getPlanName())
-                .monthlyRental(plan.getMonthlyRental())
+                .planName(plan.getPlanName() != null ? plan.getPlanName() : "N/A")
+                .monthlyRental(plan.getMonthlyCharge())
                 
-                .taxName(tax.getTaxName())
-                .taxPercentage(tax.getTaxPercentage())
+                .taxName(tax.getTaxValue() != null ? tax.getTaxValue() : "N/A")
+                .taxValue(tax.getPropertyValue())
                 
-                .discountName(discount.getDiscountName())
-                .discountAmount(discount.getDiscountAmount())
-                .discountPercentage(discount.getDiscountPercentage())
+                .discountName(discount.getDiscountValue() != null ? discount.getDiscountValue() : "N/A")
+                .discountValue(discount.getPropertyValue())
                 .build();
     }
 }
