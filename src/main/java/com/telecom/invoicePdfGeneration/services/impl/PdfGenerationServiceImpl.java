@@ -191,7 +191,7 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
         addChargeRow(table, discountDesc, formatNegativeAmount(details.getDiscountValue()), normalFont);
         
         addChargeRow(table, "Adjustments", formatAmount(details.getAdjustments()), normalFont);
-        addChargeRow(table, "Payments Received", formatNegativeAmount(details.getPayments()), normalFont);
+        // addChargeRow(table, "Payments Received", formatNegativeAmount(details.getPayments()), normalFont);
         
         document.add(table);
     }
