@@ -68,10 +68,9 @@ public class BillingCycleSchedulerServiceImpl implements BillingCycleSchedulerSe
             log.info("Invoice Processing Successful for Invoice ID: {}", invoiceId);
         } catch (Exception e) {
             log.error("Invoice Processing Failed for Invoice ID: {}. Reason: {}", invoiceId, e.getMessage(), e);
-            // Intentionally swallow exception to allow scheduler to continue with remaining
-            // invoices
         }
     }
 }
 
-//
+
+

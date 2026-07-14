@@ -27,7 +27,7 @@ public class PdfStorageServiceImpl implements PdfStorageService {
             // Files.write will overwrite the file if it already exists
             Files.write(filePath, pdfContent);
 
-            return filePath.toAbsolutePath().toString();
+            return filePath.toString();
         } catch (IOException e) {
             throw new RuntimeException("Failed to store PDF file for MSISDN: " + msisdn, e);
         }
